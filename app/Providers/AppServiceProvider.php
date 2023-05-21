@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\View\Components\main1;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        Carbon::setLocale('ru_RU');
+        Paginator::useBootstrap();
     }
 }
