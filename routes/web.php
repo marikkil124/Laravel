@@ -29,12 +29,40 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', \App\Http\Controllers\Main\IndexController::class)->name('main.index');
 
+
+Route::prefix('category')->group(function () {
+Route::get('/', \App\Http\Controllers\Category\IndexController::class)
+    ->name('category.index');
+
+    Route::prefix('/{category}/posts')->group(function () {
+
+        Route::get('/', \App\Http\Controllers\Category\Post\IndexController::class)
+            ->name('category.post.index');
+    });
+
+});
+
+
 Route::prefix('posts')->group(function () {
     Route::get('/', \App\Http\Controllers\Post\IndexController::class)
         ->name('posts.index');
     Route::get('/{post}', \App\Http\Controllers\Post\ShowController::class)
         ->name('post.show');
+//post/1/comments
+    Route::prefix('/{post}/comments')->group(function () {
+
+        Route::post('/', \App\Http\Controllers\Post\Comment\StoreController::class)
+            ->name('post.comment.store');
+    });
+    //post/1/likes
+    Route::prefix('/{post}/likes')->group(function () {
+
+        Route::post('/', \App\Http\Controllers\Post\Like\StoreController::class)
+            ->name('post.like.store');
+    });
+
 });
+
 Route::prefix('admin')->middleware(['admin','auth','verified'])->group(function () {
 
     Route::get('/', \App\Http\Controllers\Admin\Main\IndexController::class)

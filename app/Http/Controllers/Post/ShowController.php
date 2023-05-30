@@ -14,6 +14,8 @@ class ShowController extends Controller
     {
 
         $date = Carbon::parse($post->created_at);
+        $dateComments = Carbon::parse($post->created_at);
+        //dd($dateComments);
         $relatedposts = Post::where('category_id', $post->category_id)
             ->where('id','!=',$post->id)
             ->get()
